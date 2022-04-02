@@ -17,6 +17,11 @@ public class HandTimer : MonoBehaviour
     [SerializeField]
     public bool paused;
 
+    // Start, Update, OnTriggerEnter
+    void Start() {
+        StartTimer();
+    }
+
     // StartTimer: starts the Timer countdown using coroutines
     void StartTimer()
     {
@@ -68,12 +73,12 @@ public class HandTimer : MonoBehaviour
     }
 
     // AddTime: simulates gaining time on the clock by removing time from the current progress
-    void AddTime (float time) {
+    public void AddTime (float time) {
         progress -= time;
     }
 
     // SubtractTime: simulates losing time on the clock by adding time to the current progress
-    void SubtractTime (float time) {
+    public void SubtractTime (float time) {
         progress += time;
     }
 
@@ -98,11 +103,16 @@ public class HandTimer : MonoBehaviour
 
     // UpdateView: per-frame updates the timer render
     private void UpdateView(float normalizedTime) {
-        if (_text != null) _text.text = String.Format("{0:0.00}/{0:0.00}", normalizedTime, _duration);
+
+        if (_text != null) _text.text = String.Format("{0:0.00}  /  {1:0.00}", normalizedTime * _duration, _duration);
+        // TODO: make it clear w/ timer
+        // TODO: sequence challenge filling in a slider bar
+    
     }
 
     // SetViewDone: set the timer render to completed
     private void SetViewDone() {
         if (_text != null) _text.text = "done";
+        // TODO: set DONE!
     }
 }
