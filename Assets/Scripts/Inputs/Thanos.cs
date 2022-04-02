@@ -29,48 +29,57 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""PointerFinger"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""def63991-c0cf-44de-b7d5-23f6076d3bd2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""MiddleFinger"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""6ae39957-87a1-4771-97d9-0e2cd722147c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""RingFinger"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""8e2b8a35-b7aa-4651-904c-4d98c2ace116"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Pinky"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""88604ef7-ed04-403b-9c57-01435f1a235a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Thumb"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""8e972e8e-ae80-412b-8e01-f1a4f3781609"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""e722b3d9-05db-44ad-b52f-197d297d506c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,6 +192,28 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
                     ""action"": ""Thumb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d8e10e50-648b-4cd1-8d60-317daacafb2f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14a29295-8b80-4e4e-859f-bbdb0a0204c4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +227,7 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
         m_Hand_RingFinger = m_Hand.FindAction("RingFinger", throwIfNotFound: true);
         m_Hand_Pinky = m_Hand.FindAction("Pinky", throwIfNotFound: true);
         m_Hand_Thumb = m_Hand.FindAction("Thumb", throwIfNotFound: true);
+        m_Hand_Reset = m_Hand.FindAction("Reset", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,6 +292,7 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
     private readonly InputAction m_Hand_RingFinger;
     private readonly InputAction m_Hand_Pinky;
     private readonly InputAction m_Hand_Thumb;
+    private readonly InputAction m_Hand_Reset;
     public struct HandActions
     {
         private @Thanos m_Wrapper;
@@ -269,6 +302,7 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
         public InputAction @RingFinger => m_Wrapper.m_Hand_RingFinger;
         public InputAction @Pinky => m_Wrapper.m_Hand_Pinky;
         public InputAction @Thumb => m_Wrapper.m_Hand_Thumb;
+        public InputAction @Reset => m_Wrapper.m_Hand_Reset;
         public InputActionMap Get() { return m_Wrapper.m_Hand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -293,6 +327,9 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
                 @Thumb.started -= m_Wrapper.m_HandActionsCallbackInterface.OnThumb;
                 @Thumb.performed -= m_Wrapper.m_HandActionsCallbackInterface.OnThumb;
                 @Thumb.canceled -= m_Wrapper.m_HandActionsCallbackInterface.OnThumb;
+                @Reset.started -= m_Wrapper.m_HandActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_HandActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_HandActionsCallbackInterface.OnReset;
             }
             m_Wrapper.m_HandActionsCallbackInterface = instance;
             if (instance != null)
@@ -312,6 +349,9 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
                 @Thumb.started += instance.OnThumb;
                 @Thumb.performed += instance.OnThumb;
                 @Thumb.canceled += instance.OnThumb;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
             }
         }
     }
@@ -323,5 +363,6 @@ public partial class @Thanos : IInputActionCollection2, IDisposable
         void OnRingFinger(InputAction.CallbackContext context);
         void OnPinky(InputAction.CallbackContext context);
         void OnThumb(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
     }
 }
