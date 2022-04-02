@@ -5,78 +5,61 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerInput), typeof(HandTimer))]
 public class HandController : MonoBehaviour
 {
     [SerializeField]
     public PlayerInput playerInput;
-
+    
     [SerializeField]
-    public float thumbPress;
-
+    public HandTimer handTimer;
+    
     [SerializeField]
-    public List<Finger> fingers;
-
-    public bool closing;
-
-    [SerializeField]
-    public float seconds = 10f;
-
-    [SerializeField]
-    public Text timeRemaining;
+    public GameObject gameover;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!fingers.Any()) fingers = new List<Finger>();
         playerInput = GetComponent<PlayerInput>();
-        Debug.Log("playerInput set on Start");
-
-        closing = true;
-        StartCoroutine(Countdown(5f));
+        handTimer = GetComponent<HandTimer>();
     }
 
 
-
-    private IEnumerator Countdown(float duration)
-    {
-        //to whatever you want
-        float normalizedTime = 0;
-        while(normalizedTime <= 1f)
-        {
-            // countdownImage.fillAmount = normalizedTime;
-            normalizedTime += Time.deltaTime / duration;
-            timeRemaining.text = String.Format("{0:0.00}", normalizedTime);
-
-            // where we dispatch other events or data
-            yield return null;
-        }
-        timeRemaining.text = "done";
-    }
 
     // Update is called once per frame
     void Update()
     {
 
+        // if the handtimer is complete, pause the game and wait for reset
+        if (handTimer.Done()) {
+            gameover.SetActive(true);
+            if (playerInput.actions["Reset"].ReadValue<float>() != 0f) {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            return;
+        }
+
         // yield finished coroutine
 
 
         float fingerValue = 0f;
-        foreach (Finger finger in fingers) {
-            finger.pressed = false;
-            // better code: check if finger.action is in actions
-            fingerValue = playerInput.actions[finger.action].ReadValue<float>();
-            if (fingerValue != 0f ) {
-                finger.pressed = true;
-            }
-            // update color
-            finger.UpdateColor();
+        // foreach (Finger finger in fingers) {
+        //     finger.pressed = false;
+        //     // better code: check if finger.action is in actions
+        //     fingerValue = playerInput.actions[finger.action].ReadValue<float>();
+        //     if (fingerValue != 0f ) {
+        //         finger.pressed = true;
+        //     }
+        //     // update color
+        //     finger.UpdateColor();
 
-            // keep from squeezing finger
+        //     // keep from squeezing finger
 
 
-        }
+        // }
     }
 }
 // TODO:

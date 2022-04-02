@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class HandTimer : MonoBehaviour
+public class ChallengeTimer : MonoBehaviour
 {
     [SerializeField]
     public float _duration;
@@ -12,10 +12,10 @@ public class HandTimer : MonoBehaviour
     public float _progress;
 
     [SerializeField]
-    public Text _text;
+    public bool paused;
 
     [SerializeField]
-    public bool paused;
+    public Slider slider;
 
     // Start, Update, OnTriggerEnter
     void Start() {
@@ -67,7 +67,7 @@ public class HandTimer : MonoBehaviour
     }
 
     // Done: returns true/false if the timer is complete
-    public bool Done()
+    bool Done()
     {
         return _progress >= 1f;
     }
@@ -103,9 +103,7 @@ public class HandTimer : MonoBehaviour
 
     // UpdateView: per-frame updates the timer render
     private void UpdateView(float progress) {
-
-        if (_text != null) _text.text = String.Format("{0:0.0}", _duration - (progress * _duration));
-        // TODO: make it clear w/ timer
+        if (slider != null) slider.value = 1f - progress;
     }
 
     // SetViewDone: set the timer render to completed

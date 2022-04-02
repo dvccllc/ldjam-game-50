@@ -7,48 +7,57 @@
             "actions": [
                 {
                     "name": "PointerFinger",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "def63991-c0cf-44de-b7d5-23f6076d3bd2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
                     "name": "MiddleFinger",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "6ae39957-87a1-4771-97d9-0e2cd722147c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
                     "name": "RingFinger",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "8e2b8a35-b7aa-4651-904c-4d98c2ace116",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Pinky",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "88604ef7-ed04-403b-9c57-01435f1a235a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
                     "name": "Thumb",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "8e972e8e-ae80-412b-8e01-f1a4f3781609",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "e722b3d9-05db-44ad-b52f-197d297d506c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -159,6 +168,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Thumb",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d8e10e50-648b-4cd1-8d60-317daacafb2f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "14a29295-8b80-4e4e-859f-bbdb0a0204c4",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
