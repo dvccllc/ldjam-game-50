@@ -58,12 +58,6 @@ public class HandController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        seconds--;
-        if (seconds < 0f) {
-            closing = false;
-        }
-
-        
 
         // yield finished coroutine
 
