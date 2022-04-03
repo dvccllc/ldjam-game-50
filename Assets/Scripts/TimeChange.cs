@@ -16,9 +16,12 @@ public class TimeChange : MonoBehaviour
     public float _progress;
 
     [SerializeField]
-    public Text plusMinusText, valueText;
+    public Text plusMinusText, valueText, suffixText;
 
     public float value;
+
+    [SerializeField]
+    public string valueSuffix;
 
     Color initialColor;
 
@@ -29,28 +32,21 @@ public class TimeChange : MonoBehaviour
         {
             plusMinusText.color = Color.green;
             valueText.color = Color.green;
+            suffixText.color = Color.green;
             plusMinusText.text = "+";
         }
         else
         {
             plusMinusText.color = Color.red;
             valueText.color = Color.red;
+            suffixText.color = Color.red;
             plusMinusText.text = "-";
         }
         initialColor = plusMinusText.color;
         valueText.text = String.Format("{0:0}", Math.Abs(value));
-
-
-
-        // StartCoroutine(DelayedStart(fadeDelay));
+        suffixText.text = valueSuffix;
         StartCoroutine(Countdown(fadeDuration));
     }
-    // private IEnumerator DelayedStart(float delay) {
-    //             Debug.Log("delay start");
-
-    //     yield return new WaitForSeconds(fadeDelay);
-    //     StartCoroutine(Countdown(fadeDuration));
-    // }
 
     // Countdown: the inumerator that increments the Timer
     private IEnumerator Countdown(float duration)
@@ -66,6 +62,7 @@ public class TimeChange : MonoBehaviour
             Color fadedColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0f);
             plusMinusText.color = Color.Lerp(initialColor, fadedColor, _progress);
             valueText.color = Color.Lerp(initialColor, fadedColor, _progress);
+            suffixText.color = Color.Lerp(initialColor, fadedColor, _progress);
             yield return null;
         }
 
