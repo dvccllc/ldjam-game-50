@@ -15,6 +15,9 @@ public class HandController : MonoBehaviour
     
     [SerializeField]
     public HandTimer handTimer;
+
+    [SerializeField]
+    public ChallengeTimer challengeTimer;
     
     [SerializeField]
     public GameObject gameover;
@@ -25,6 +28,7 @@ public class HandController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         handTimer = GetComponent<HandTimer>();
+        handTimer.RestartTimer();
     }
 
 
@@ -36,6 +40,8 @@ public class HandController : MonoBehaviour
         // if the handtimer is complete, pause the game and wait for reset
         if (handTimer.Done()) {
             gameover.SetActive(true);
+            handTimer.StopTimer();
+            challengeTimer.StopTimer();
             if (playerInput.actions["Reset"].ReadValue<float>() != 0f) {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
