@@ -22,7 +22,7 @@ public class ChallengeTimer : MonoBehaviour
     {
         StartCoroutine(Countdown(_duration));
     }
-    
+
     // StopTimer: stops the Timer coroutine completely
     public void StopTimer()
     {
@@ -68,14 +68,16 @@ public class ChallengeTimer : MonoBehaviour
     }
 
     // AddSeconds: simulates gaining time on the clock by removing time from the current progress
-    public void AddSeconds (float seconds) {
+    public void AddSeconds(float seconds)
+    {
         float time = seconds / _duration;
         _progress -= time;
         if (_progress < 0f) _progress = 0f;
     }
 
     // SubtractSeconds: simulates losing time on the clock by adding time to the current progress
-    public void SubtractSeconds (float seconds) {
+    public void SubtractSeconds(float seconds)
+    {
         float time = seconds / _duration;
         _progress += time;
         if (_progress > 1f) _progress = 1f;
@@ -85,7 +87,7 @@ public class ChallengeTimer : MonoBehaviour
     private IEnumerator Countdown(float duration)
     {
         // run until 100%
-        while(_progress <= 1f)
+        while (_progress < 1f)
         {
             // update how the timer is rendered
             UpdateView(_progress);
@@ -102,12 +104,14 @@ public class ChallengeTimer : MonoBehaviour
 
 
     // UpdateView: per-frame updates the timer render
-    private void UpdateView(float progress) {
+    private void UpdateView(float progress)
+    {
         if (slider != null) slider.value = 1f - progress;
     }
 
     // SetViewDone: set the timer render to completed
-    private void SetViewDone() {
+    private void SetViewDone()
+    {
         // keep it "0" for now
         // if (_text != null) _text.text = "done";
     }

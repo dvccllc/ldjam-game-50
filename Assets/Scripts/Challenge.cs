@@ -28,7 +28,7 @@ public class Challenge : MonoBehaviour
     [SerializeField]
     public int minSequenceSize;
 
-    
+
     [SerializeField]
     public int maxSequenceSize;
 
@@ -39,8 +39,13 @@ public class Challenge : MonoBehaviour
     public GameObject challengeInputPrefab;
 
     [SerializeField]
+    public GameObject timeChangePrefab;
+
+    [SerializeField]
     public HandTimer handTimer;
 
+    [SerializeField]
+    public Transform timeChangeList;
 
     void Start()
     {
@@ -49,6 +54,14 @@ public class Challenge : MonoBehaviour
 
     void Update()
     {
+        // game is over
+        if (handTimer.Done()) return;
+
+        if (sequenceList.transform.childCount > 0) {
+            Transform nextInput = sequenceList.transform.GetChild(0);
+            nextInput.GetComponent<ChallengeInput>().EnableHighlight();
+        }
+
         if (inputActions.Count > 0 && completed < inputActions.Count)
         {
             if (currentInput <= inputActions.Count - 1)
@@ -62,23 +75,36 @@ public class Challenge : MonoBehaviour
 
         if (completed >= inputActions.Count)
         {
-            handTimer.AddSeconds(1f);
+            float timeBonus = 2f;
+            handTimer.AddSeconds(timeBonus);
+            GameObject timeChange = Instantiate(timeChangePrefab);
+            timeChange.GetComponent<TimeChange>().value = timeBonus;
+            timeChange.transform.SetParent(timeChangeList);
             Reset();
-        } else if (challengeTimer.Done()) {
-            handTimer.SubtractSeconds(3f);
+        }
+        else if (challengeTimer.Done())
+        {
+            float timePenalty = 3f;
+            handTimer.SubtractSeconds(timePenalty);
+            GameObject timeChange = Instantiate(timeChangePrefab);
+            timeChange.GetComponent<TimeChange>().value = -timePenalty;
+            timeChange.transform.SetParent(timeChangeList);
             Reset();
         }
     }
-    List<string> GenerateSequence() {
+    List<string> GenerateSequence()
+    {
         List<string> sequence = new List<string>();
-        int size = UnityEngine.Random.Range(minSequenceSize,maxSequenceSize);
-        for (int i = 0; i < size; i++) {
+        int size = UnityEngine.Random.Range(minSequenceSize, maxSequenceSize);
+        for (int i = 0; i < size; i++)
+        {
             sequence.Add(GetRandomInputAction());
         }
         return sequence;
     }
 
-    string GetRandomInputAction () {
+    string GetRandomInputAction()
+    {
         return inputActionOptions[UnityEngine.Random.Range(0, inputActionOptions.Count - 1)];
     }
 
@@ -95,6 +121,7 @@ public class Challenge : MonoBehaviour
         {
             GameObject.Destroy(sequenceList.transform.GetChild(i).gameObject);
         }
+        sequenceList.transform.DetachChildren();
 
         foreach (string inputAction in inputActions)
         {
