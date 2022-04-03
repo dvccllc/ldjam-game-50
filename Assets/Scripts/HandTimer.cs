@@ -17,25 +17,20 @@ public class HandTimer : MonoBehaviour
     [SerializeField]
     public bool paused;
 
-    // Start, Update, OnTriggerEnter
-    void Start() {
-        StartTimer();
-    }
-
     // StartTimer: starts the Timer countdown using coroutines
-    void StartTimer()
+    public void StartTimer()
     {
         StartCoroutine(Countdown(_duration));
     }
-    
+
     // StopTimer: stops the Timer coroutine completely
-    void StopTimer()
+    public void StopTimer()
     {
-        StopCoroutine(Countdown(_duration));
+        StopAllCoroutines();
     }
 
     // RestartTimer: restarts the Timer countdown using coroutines and progress
-    void RestartTimer()
+    public void RestartTimer()
     {
         StopTimer();
         ResetTimer();
@@ -43,19 +38,19 @@ public class HandTimer : MonoBehaviour
     }
 
     // PauseTimer: pauses the Timer countdown
-    void PauseTimer()
+    public void PauseTimer()
     {
         paused = true;
     }
 
     // ResumeTimer: unpauses the Timer countdown
-    void ResumeTimer()
+    public void ResumeTimer()
     {
         paused = false;
     }
 
     // ResetTimer: resets the Timer progress
-    void ResetTimer()
+    public void ResetTimer()
     {
         _progress = 0f;
     }
@@ -72,28 +67,34 @@ public class HandTimer : MonoBehaviour
         return _progress >= 1f;
     }
 
-    // AddTime: simulates gaining time on the clock by removing time from the current progress
-    public void AddTime (float time) {
+    // AddSeconds: simulates gaining time on the clock by removing time from the current progress
+    public void AddSeconds(float seconds)
+    {
+        float time = seconds / _duration;
         _progress -= time;
+        if (_progress < 0f) _progress = 0f;
     }
 
-    // SubtractTime: simulates losing time on the clock by adding time to the current progress
-    public void SubtractTime (float time) {
+    // SubtractSeconds: simulates losing time on the clock by adding time to the current progress
+    public void SubtractSeconds(float seconds)
+    {
+        float time = seconds / _duration;
         _progress += time;
+        if (_progress > 1f) _progress = 1f;
     }
 
     // Countdown: the inumerator that increments the Timer
     private IEnumerator Countdown(float duration)
     {
         // run until 100%
-        while(_progress <= 1f)
+        while (_progress < 1f)
         {
             // update how the timer is rendered
             UpdateView(_progress);
 
             // increment the timer using delta time
             if (!paused) _progress += Time.deltaTime / duration;
-
+            _progress = Mathf.Clamp(_progress, 0f, 1f);
             // proceed on next frame
             yield return null;
         }
@@ -102,14 +103,16 @@ public class HandTimer : MonoBehaviour
     }
 
     // UpdateView: per-frame updates the timer render
-    private void UpdateView(float progress) {
+    private void UpdateView(float progress)
+    {
 
         if (_text != null) _text.text = String.Format("{0:0.0}", _duration - (progress * _duration));
         // TODO: make it clear w/ timer
     }
 
     // SetViewDone: set the timer render to completed
-    private void SetViewDone() {
+    private void SetViewDone()
+    {
         // keep it "0" for now
         // if (_text != null) _text.text = "done";
     }
