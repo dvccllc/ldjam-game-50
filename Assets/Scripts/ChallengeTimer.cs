@@ -55,6 +55,12 @@ public class ChallengeTimer : MonoBehaviour
         _progress = 0f;
     }
 
+    // SetDuration: sets the duration as float
+    public void SetDuration(float duration)
+    {
+        _duration = duration;
+    }
+
     // CurrentProgress: returns the current progress as float
     public float CurrentProgress()
     {

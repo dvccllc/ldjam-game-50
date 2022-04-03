@@ -250,3 +250,4 @@ MonoBehaviour:
   plusMinusText: {fileID: 7220399118462032685}
   valueText: {fileID: 7220399118102435511}
   value: 4
+  valueSuffix: 

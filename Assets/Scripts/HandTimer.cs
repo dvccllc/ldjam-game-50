@@ -17,6 +17,12 @@ public class HandTimer : MonoBehaviour
     [SerializeField]
     public bool paused;
 
+    [SerializeField]
+    public float timeLasted;
+
+    [SerializeField]
+    public Text scoreText;
+
     // StartTimer: starts the Timer countdown using coroutines
     public void StartTimer()
     {
@@ -103,7 +109,7 @@ public class HandTimer : MonoBehaviour
     }
 
     // UpdateView: per-frame updates the timer render
-    private void UpdateView(float progress)
+    public void UpdateView(float progress)
     {
 
         if (_text != null) _text.text = String.Format("{0:0.0}", _duration - (progress * _duration));
@@ -111,9 +117,11 @@ public class HandTimer : MonoBehaviour
     }
 
     // SetViewDone: set the timer render to completed
-    private void SetViewDone()
+    public void SetViewDone()
     {
+        if (_text != null) _text.text = "0";   
         // keep it "0" for now
         // if (_text != null) _text.text = "done";
     }
 }
+

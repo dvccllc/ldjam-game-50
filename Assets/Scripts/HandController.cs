@@ -1,24 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Linq;
-using UnityEngine.UI;
-using System;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(PlayerInput), typeof(HandTimer))]
+[RequireComponent(typeof(HandTimer))]
 public class HandController : MonoBehaviour
 {
-    [SerializeField]
-    public PlayerInput playerInput;
-    
     [SerializeField]
     public HandTimer handTimer;
 
     [SerializeField]
     public ChallengeTimer challengeTimer;
-    
+
     [SerializeField]
     public GameObject gameover;
 
@@ -26,7 +17,6 @@ public class HandController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
         handTimer = GetComponent<HandTimer>();
         handTimer.RestartTimer();
     }
@@ -38,16 +28,18 @@ public class HandController : MonoBehaviour
     {
 
         // if the handtimer is complete, pause the game and wait for reset
-        if (handTimer.Done()) {
+        if (handTimer.Done())
+        {
             gameover.SetActive(true);
+            handTimer.SetViewDone();
             handTimer.StopTimer();
             challengeTimer.StopTimer();
-            if (playerInput.actions["Reset"].ReadValue<float>() != 0f) {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
             return;
         }
-
+        if (Input.GetKeyDown("escape"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         // yield finished coroutine
 
 
@@ -106,4 +98,6 @@ public class HandController : MonoBehaviour
 // 
 // convert text bar to % bar gauge 
 
+// penalty for wrong input
+// score - 
 

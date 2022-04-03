@@ -20,6 +20,9 @@ public class TimeChange : MonoBehaviour
 
     public float value;
 
+    [SerializeField]
+    public string valueSuffix;
+
     Color initialColor;
 
     // Start is called before the first frame update
@@ -38,19 +41,9 @@ public class TimeChange : MonoBehaviour
             plusMinusText.text = "-";
         }
         initialColor = plusMinusText.color;
-        valueText.text = String.Format("{0:0}", Math.Abs(value));
-
-
-
-        // StartCoroutine(DelayedStart(fadeDelay));
+        valueText.text = String.Format("{0:0}" + valueSuffix, Math.Abs(value));
         StartCoroutine(Countdown(fadeDuration));
     }
-    // private IEnumerator DelayedStart(float delay) {
-    //             Debug.Log("delay start");
-
-    //     yield return new WaitForSeconds(fadeDelay);
-    //     StartCoroutine(Countdown(fadeDuration));
-    // }
 
     // Countdown: the inumerator that increments the Timer
     private IEnumerator Countdown(float duration)
