@@ -26,7 +26,10 @@ public class HandController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown("escape"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         // if the handtimer is complete, pause the game and wait for reset
         if (handTimer.Done())
         {
@@ -35,10 +38,6 @@ public class HandController : MonoBehaviour
             handTimer.StopTimer();
             challengeTimer.StopTimer();
             return;
-        }
-        if (Input.GetKeyDown("escape"))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         // yield finished coroutine
 

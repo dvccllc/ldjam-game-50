@@ -64,6 +64,9 @@ public class Challenge : MonoBehaviour
     [SerializeField]
     public Text scoreText;
 
+    [SerializeField]
+    public CanvasShake countdownCanvasShake;
+
     // integer key is the length of the word
     // string value is the actual word
     public Dictionary<int, List<string>> wordbank;
@@ -89,9 +92,17 @@ public class Challenge : MonoBehaviour
         {
             if (currentInput <= inputActions.Count - 1)
             {
-                if (Input.GetKeyDown(currentInputAction))
-                {
-                    IncrementCurrentInputAction();
+                
+                // user pressed something
+                if (KeyboardPressed()) {
+                    // check if it was the correct key
+                    if (Input.GetKeyDown(currentInputAction)) {
+                        IncrementCurrentInputAction();
+                    }
+                    else {
+                        GetComponent<CanvasShake>().Shake(5f);
+                        ResetCurrentInputAction();
+                    }
                 }
             }
         }
@@ -126,6 +137,8 @@ public class Challenge : MonoBehaviour
             tc.value = -timePenalty;
             tc.valueSuffix = "s";
             timeChange.transform.SetParent(timeChangeList);
+            GetComponent<CanvasShake>().Shake(5f);
+            countdownCanvasShake.Shake(3f);
             Reset();
         }
 
@@ -169,6 +182,34 @@ public class Challenge : MonoBehaviour
         if (inputActions.Count > 0) currentInputAction = inputActions[currentInput];
 
 
+        ReconstructUIList();
+
+        challengeTimer.SetDuration(defaultDurationSeconds + timerDurationPerLetterSeconds * (inputActions.Count));
+        challengeTimer.RestartTimer();
+    }
+
+    // IncrementCurrentInputAction: proceeds to the next input action, if more exist
+    void IncrementCurrentInputAction()
+    {
+        currentInput++;
+        completed++;
+        currentInput = Math.Min(currentInput, inputActions.Count - 1);
+        currentInputAction = inputActions[currentInput];
+        GameObject.Destroy(sequenceList.transform.GetChild(0).gameObject);
+    }
+
+    
+    // ResetCurrentInputAction: reacts to an incorrect entry, and resets to the original input action
+    void ResetCurrentInputAction()
+    {
+        currentInput = 0;
+        completed = 0;
+        currentInput = Math.Min(currentInput, inputActions.Count - 1);
+        currentInputAction = inputActions[currentInput];
+        ReconstructUIList();
+    }
+
+    void ReconstructUIList() {
         int listChildren = sequenceList.transform.childCount;
         for (int i = listChildren - 1; i >= 0; i--)
         {
@@ -183,19 +224,6 @@ public class Challenge : MonoBehaviour
             challengeInput.inputAction = inputAction;
             challengeInputGameObject.transform.SetParent(sequenceList.transform);
         }
-
-        challengeTimer.SetDuration(defaultDurationSeconds + timerDurationPerLetterSeconds * (inputActions.Count));
-        challengeTimer.RestartTimer();
-    }
-
-    // IncrementCurrentInputAction: proceeds to the next input action, if more exist
-    void IncrementCurrentInputAction()
-    {
-        currentInput++;
-        completed++;
-        currentInput = Math.Min(currentInput, inputActions.Count - 1);
-        currentInputAction = inputActions[currentInput];
-        GameObject.Destroy(sequenceList.transform.GetChild(0).gameObject);
     }
 
     void InitializeWordbank()
@@ -286,4 +314,58 @@ public class Challenge : MonoBehaviour
         }}
         };
     }
+
+
+    bool KeyboardPressed() {
+        List<string> keys = new List<string> {
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "0",
+            "-",
+            "=",
+            ",",
+            ".",
+            "`"
+        };
+
+        foreach (string key in keys) {
+            if (Input.GetKeyDown(key)) return true;
+        }
+        return false;
+    }
+
 }
