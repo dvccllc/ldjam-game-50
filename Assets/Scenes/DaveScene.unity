@@ -3082,7 +3082,7 @@ PrefabInstance:
       objectReference: {fileID: 1873066982}
     - target: {fileID: 7033580782451504106, guid: 3de3b9c75f8e0d24594e50a7551fff3b, type: 3}
       propertyPath: _duration
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7033580782451504106, guid: 3de3b9c75f8e0d24594e50a7551fff3b, type: 3}
       propertyPath: scoreText
