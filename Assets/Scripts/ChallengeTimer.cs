@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class HandTimer : MonoBehaviour
+public class ChallengeTimer : MonoBehaviour
 {
     [SerializeField]
     public float _duration;
@@ -12,13 +12,10 @@ public class HandTimer : MonoBehaviour
     public float _progress;
 
     [SerializeField]
-    public Text _text;
-
-    [SerializeField]
     public bool paused;
 
     [SerializeField]
-    public float timeLasted;
+    public Slider slider;
 
     // StartTimer: starts the Timer countdown using coroutines
     public void StartTimer()
@@ -58,6 +55,12 @@ public class HandTimer : MonoBehaviour
         _progress = 0f;
     }
 
+    // SetDuration: sets the duration as float
+    public void SetDuration(float duration)
+    {
+        _duration = duration;
+    }
+
     // CurrentProgress: returns the current progress as float
     public float CurrentProgress()
     {
@@ -93,7 +96,7 @@ public class HandTimer : MonoBehaviour
         while (_progress < 1f)
         {
             // update how the timer is rendered
-            UpdateView();
+            UpdateView(_progress);
 
             // increment the timer using delta time
             if (!paused) _progress += Time.deltaTime / duration;
@@ -105,20 +108,17 @@ public class HandTimer : MonoBehaviour
         SetViewDone();
     }
 
-    // UpdateView: per-frame updates the timer render
-    public void UpdateView()
-    {
 
-        if (_text != null) _text.text = String.Format("{0:0.0}", _duration - (_progress * _duration));
-        // TODO: make it clear w/ timer
+    // UpdateView: per-frame updates the timer render
+    private void UpdateView(float progress)
+    {
+        if (slider != null) slider.value = 1f - progress;
     }
 
     // SetViewDone: set the timer render to completed
-    public void SetViewDone()
+    private void SetViewDone()
     {
-        if (_text != null) _text.text = "0";
         // keep it "0" for now
         // if (_text != null) _text.text = "done";
     }
 }
-

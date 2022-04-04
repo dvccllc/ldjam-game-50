@@ -1,87 +1,71 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Linq;
-using UnityEngine.UI;
-using System;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(HandTimer))]
 public class HandController : MonoBehaviour
 {
     [SerializeField]
-    public PlayerInput playerInput;
+    public HandTimer handTimer;
 
     [SerializeField]
-    public float thumbPress;
+    public ChallengeTimer challengeTimer;
 
     [SerializeField]
-    public List<Finger> fingers;
-
-    public bool closing;
+    public Challenge challenge;
 
     [SerializeField]
-    public float seconds = 10f;
+    public GameOver gameOver;
 
     [SerializeField]
-    public Text timeRemaining;
+    public AudioSource soundManager;
 
+    [SerializeField]
+    public PauseToggle pauseToggle;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (!fingers.Any()) fingers = new List<Finger>();
-        playerInput = GetComponent<PlayerInput>();
-        Debug.Log("playerInput set on Start");
-
-        closing = true;
-        StartCoroutine(Countdown(5f));
-    }
-
-
-
-    private IEnumerator Countdown(float duration)
-    {
-        //to whatever you want
-        float normalizedTime = 0;
-        while(normalizedTime <= 1f)
-        {
-            // countdownImage.fillAmount = normalizedTime;
-            normalizedTime += Time.deltaTime / duration;
-            timeRemaining.text = String.Format("{0:0.00}", normalizedTime);
-
-            // where we dispatch other events or data
-            yield return null;
-        }
-        timeRemaining.text = "done";
+        handTimer = GetComponent<HandTimer>();
+        gameOver.ToggleGameOver(false);
+        handTimer.UpdateView();
     }
 
     // Update is called once per frame
     void Update()
     {
-        seconds--;
-        if (seconds < 0f) {
-            closing = false;
+        if (WelcomeScreen.WelcomeActive && Input.GetKeyDown(KeyCode.Return))
+        {
+            // only run this once
+            handTimer.RestartTimer();
+            challenge.Reset();
+            WelcomeScreen.SetWelcomeActive(false);
+            return;
+        };
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (GameOver.GameOverActive)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                return;
+            }
         }
 
-        
+        if (Input.GetKeyDown("escape"))
+        {
+            pauseToggle.TogglePause(!PauseToggle.GameIsPaused);
+        }
 
-        // yield finished coroutine
+        if (PauseToggle.GameIsPaused || WelcomeScreen.WelcomeActive || GameOver.GameOverActive) return;
 
-
-        float fingerValue = 0f;
-        foreach (Finger finger in fingers) {
-            finger.pressed = false;
-            // better code: check if finger.action is in actions
-            fingerValue = playerInput.actions[finger.action].ReadValue<float>();
-            if (fingerValue != 0f ) {
-                finger.pressed = true;
-            }
-            // update color
-            finger.UpdateColor();
-
-            // keep from squeezing finger
-
-
+        // if the handtimer is complete, pause the game and wait for reset
+        if (handTimer.Done())
+        {
+            gameOver.ToggleGameOver(true);
+            handTimer.SetViewDone();
+            handTimer.StopTimer();
+            challengeTimer.StopTimer();
+            return;
         }
     }
 }
@@ -123,4 +107,6 @@ public class HandController : MonoBehaviour
 // 
 // convert text bar to % bar gauge 
 
+// penalty for wrong input
+// score - 
 
