@@ -25,10 +25,10 @@ public class FingerRotation : MonoBehaviour
         // eulerAngles is -180f to 180f (x, y, z)
 
         // set originalAngle so we can have a progress-to-flexed
-        originalAngle = transform.eulerAngles;
+        originalAngle = transform.localEulerAngles;
 
         // currentAngle will track where we are at all times
-        currentAngle = transform.eulerAngles;
+        currentAngle = transform.localEulerAngles;
 
         // targetAngle is where we want to go
         //    set a default to the current, so no change from original.
@@ -87,7 +87,7 @@ public class FingerRotation : MonoBehaviour
 
         // assign the transform eulers
         // remember to clamp angles between 0 and 360
-        transform.eulerAngles = new Vector3(ClampAngle(currentAngle.x), ClampAngle(currentAngle.y), ClampAngle(currentAngle.z));
+        transform.localEulerAngles = new Vector3(ClampAngle(currentAngle.x), ClampAngle(currentAngle.y), ClampAngle(currentAngle.z));
     }
 
 }

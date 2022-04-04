@@ -5,24 +5,28 @@ using UnityEngine;
 public class WelcomeScreen : MonoBehaviour
 {
 
-    private bool welcomeActive = true;
+    public static bool WelcomeActive = true;
     public void SetWelcomeActive(bool activate)
     {
         print(gameObject.name);
         gameObject.SetActive(activate);
+        WelcomeActive = activate;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
+    void Start() {
+        SetWelcomeActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            SetWelcomeActive(!welcomeActive);
+        if (WelcomeActive && Input.GetKeyDown(KeyCode.Return)) {
+            // only run this once
+            SetWelcomeActive(false);
         };
+
+        // pause time scale while welcome screen is active
+        if (WelcomeActive) Time.timeScale = 0f;
+        if (!WelcomeActive) Time.timeScale = 1f;
     }
 }

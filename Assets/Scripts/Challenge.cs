@@ -79,6 +79,8 @@ public class Challenge : MonoBehaviour
 
     void Update()
     {
+        if (PauseToggle.GameIsPaused || WelcomeScreen.WelcomeActive || GameOver.GameOverActive) return;
+
         // game is over
         if (handTimer.Done()) return;
 

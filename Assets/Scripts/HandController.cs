@@ -11,8 +11,14 @@ public class HandController : MonoBehaviour
     public ChallengeTimer challengeTimer;
 
     [SerializeField]
-    public GameObject gameover;
+    public GameOver gameOver;
 
+    [SerializeField]
+    public AudioSource soundManager;
+
+
+    [SerializeField]
+    public PauseToggle pauseToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -22,42 +28,26 @@ public class HandController : MonoBehaviour
         //call SetWelcomeActive on ENTER key press and call the RestartTimer
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown("escape"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            if (GameOver.GameOverActive) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            else pauseToggle.TogglePause(!PauseToggle.GameIsPaused);
         }
+
+        if (PauseToggle.GameIsPaused || WelcomeScreen.WelcomeActive || GameOver.GameOverActive) return;
+
         // if the handtimer is complete, pause the game and wait for reset
         if (handTimer.Done())
         {
-            gameover.SetActive(true);
+            gameOver.ToggleGameOver(true);
             handTimer.SetViewDone();
             handTimer.StopTimer();
             challengeTimer.StopTimer();
             return;
         }
-        // yield finished coroutine
-
-
-        float fingerValue = 0f;
-        // foreach (Finger finger in fingers) {
-        //     finger.pressed = false;
-        //     // better code: check if finger.action is in actions
-        //     fingerValue = playerInput.actions[finger.action].ReadValue<float>();
-        //     if (fingerValue != 0f ) {
-        //         finger.pressed = true;
-        //     }
-        //     // update color
-        //     finger.UpdateColor();
-
-        //     // keep from squeezing finger
-
-
-        // }
     }
 }
 // TODO:
