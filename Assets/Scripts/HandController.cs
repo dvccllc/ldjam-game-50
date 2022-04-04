@@ -19,6 +19,7 @@ public class HandController : MonoBehaviour
     {
         handTimer = GetComponent<HandTimer>();
         handTimer.RestartTimer();
+        //call SetWelcomeActive on ENTER key press and call the RestartTimer
     }
 
 

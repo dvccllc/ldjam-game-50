@@ -151,21 +151,21 @@ public class Challenge : MonoBehaviour
         // int wordSize = UnityEngine.Random.Range(minSequenceSize, maxSequenceSize);
         int wordSize = currentSequenceSize;
         List<string> words = wordbank[wordSize];
-        int randomWordIndex = UnityEngine.Random.Range(0, words.Count - 1);
+        int heroNameIndex = UnityEngine.Random.Range(0, words.Count - 1);
 
-        string randomWord = words[randomWordIndex];
+        string heroName = words[heroNameIndex];
 
         // no repeats
         if (currentSequenceSize < maxSequenceSize) {
-            wordbank[wordSize].Remove(randomWord);
+            wordbank[wordSize].Remove(heroName);
             if (wordbank[wordSize].Count == 0) {
                 currentSequenceSize++;
             }
         }
 
-        for (int i = 0; i < randomWord.Length; i++)
+        for (int i = 0; i < heroName.Length; i++)
         {
-            sequence.Add(randomWord[i].ToString().ToLower());
+            sequence.Add(heroName[i].ToString().ToLower());
         }
 
         return sequence;

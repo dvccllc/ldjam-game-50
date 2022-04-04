@@ -1,0 +1,102 @@
+{
+    3, new List<string> {
+        "Ego"
+    }
+},
+{
+    4, new List<string> {
+        "Kang",
+        "Loki",
+        "Odin"
+    }
+},
+{
+    5, new List<string> {
+        "Beast",
+        "Atlas",
+        "X-Men",
+        "Cable",
+        "Rogue",
+        "Havok"
+    }
+},
+{
+    6, new List<string> {
+        "Falcon",
+        "Gambit",
+        "Bedlam",
+        "Attuma",
+        "Bishop",
+        "Diablo",
+        "Thanos",
+        "Ultron"
+    }
+},
+{
+    7, new List<string> {
+        "Crystal",
+        "Hawkeye",
+        "Justice",
+        "Elektra",
+        "Cyclops",
+        "Sunfire",
+        "IronMan",
+        "HankPym",
+        "TheHand"
+    }
+},
+{
+    8, new List<string> {
+        "Avengers",
+        "Colossus",
+        "Darkhawk",
+        "Firebird",
+        "Firestar",
+        "Hercules",
+        "Darkstar",
+        "Deadpool",
+        "Inhumans",
+        "RedSkull",
+        "NickFury"
+    }
+},
+{
+    9, new List<string> {
+        "Daredevil",
+        "Bulldozer",
+        "Moonstone",
+        "Archangel",
+        "Avalanche",
+        "DocSamson",
+        "MariaHill"
+    }
+},
+{
+    10, new List<string> {
+        "Illuminati",
+        "Juggernaut",
+        "Apocalypse",
+        "Pestilence",
+        "BlackWidow",
+        "GrimReaper",
+        "HumanTorch"
+    }
+},
+{
+    11, new List<string> {
+        "Sub-Mariner",
+        "Quicksilver",
+        "EdwinJarvis",
+        "DoomsdayMan",
+        "Atlas",
+        "FoggyNelson"
+    }
+},
+{
+    12, new List<string> {
+        "BlackPanther",
+        "CountNefaria",
+        "DoctorVoodoo",
+        "ScarletWitch"
+    }
+}
