@@ -125,13 +125,15 @@ public class Challenge : MonoBehaviour
             tc.value = timeBonus;
             tc.valueSuffix = "s";
             timeChange.transform.SetParent(timeChangeList);
+            timeChange.GetComponent<RectTransform>().localScale = Vector3.one;
 
             // score change popup
             GameObject scoreChange = Instantiate(scoreChangePrefab);
-            tc = scoreChange.GetComponent<TimeChange>();
-            tc.value = 1;
-            tc.valueSuffix = "";
+            TimeChange sc = scoreChange.GetComponent<TimeChange>();
+            sc.value = 1;
+            sc.valueSuffix = "";
             scoreChange.transform.SetParent(scoreChangeList);
+            scoreChange.GetComponent<RectTransform>().localScale = Vector3.one;
             Reset();
         }
         else if (challengeTimer.Done())
@@ -143,6 +145,7 @@ public class Challenge : MonoBehaviour
             tc.value = -timePenalty;
             tc.valueSuffix = "s";
             timeChange.transform.SetParent(timeChangeList);
+            timeChange.GetComponent<RectTransform>().localScale = Vector3.one;
             GetComponent<CanvasShake>().Shake(5f);
             countdownCanvasShake.Shake(3f);
             Reset();
@@ -230,6 +233,7 @@ public class Challenge : MonoBehaviour
             ChallengeInput challengeInput = challengeInputGameObject.GetComponent<ChallengeInput>();
             challengeInput.inputAction = inputAction;
             challengeInputGameObject.transform.SetParent(sequenceList.transform);
+            challengeInputGameObject.GetComponent<RectTransform>().localScale = Vector3.one;
         }
     }
 
