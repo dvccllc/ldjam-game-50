@@ -14,12 +14,14 @@ public class MuteToggle : MonoBehaviour
     [SerializeField]
     public Toggle toggle;
 
-    void Start() {
+    void Start()
+    {
         toggle.isOn = false;
         soundManager.mute = false;
     }
 
-    public void ToggleMute(bool mute) {
+    public void ToggleMute(bool mute)
+    {
         dummy.Select();
         soundManager.mute = mute;
         toggle.isOn = mute;

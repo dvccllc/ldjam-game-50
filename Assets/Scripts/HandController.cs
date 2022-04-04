@@ -11,11 +11,13 @@ public class HandController : MonoBehaviour
     public ChallengeTimer challengeTimer;
 
     [SerializeField]
+    public Challenge challenge;
+
+    [SerializeField]
     public GameOver gameOver;
 
     [SerializeField]
     public AudioSource soundManager;
-
 
     [SerializeField]
     public PauseToggle pauseToggle;
@@ -24,17 +26,34 @@ public class HandController : MonoBehaviour
     void Start()
     {
         handTimer = GetComponent<HandTimer>();
-        handTimer.RestartTimer();
-        //call SetWelcomeActive on ENTER key press and call the RestartTimer
+        gameOver.ToggleGameOver(false);
+        handTimer.UpdateView();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (WelcomeScreen.WelcomeActive && Input.GetKeyDown(KeyCode.Return))
+        {
+            // only run this once
+            handTimer.RestartTimer();
+            challenge.Reset();
+            WelcomeScreen.SetWelcomeActive(false);
+            return;
+        };
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (GameOver.GameOverActive)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                return;
+            }
+        }
+
         if (Input.GetKeyDown("escape"))
         {
-            if (GameOver.GameOverActive) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            else pauseToggle.TogglePause(!PauseToggle.GameIsPaused);
+            pauseToggle.TogglePause(!PauseToggle.GameIsPaused);
         }
 
         if (PauseToggle.GameIsPaused || WelcomeScreen.WelcomeActive || GameOver.GameOverActive) return;

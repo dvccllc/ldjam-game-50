@@ -23,16 +23,19 @@ public class PauseToggle : MonoBehaviour
 
     public float pitch, volume;
 
-    void Start() {
+    void Start()
+    {
         toggle.isOn = false;
         pauseMenu.SetActive(false);
         pitch = soundManager.pitch;
         volume = soundManager.volume;
     }
 
-    public void TogglePause(bool pause) {
+    public void TogglePause(bool pause)
+    {
         dummy.Select();
-        if (WelcomeScreen.WelcomeActive || GameOver.GameOverActive) {
+        if (WelcomeScreen.WelcomeActive || GameOver.GameOverActive)
+        {
             toggle.isOn = false;
             return;
         }
@@ -40,13 +43,16 @@ public class PauseToggle : MonoBehaviour
         if (pitch == 0) pitch = soundManager.pitch;
         if (volume == 0) volume = soundManager.volume;
         toggle.isOn = pause;
-        if (pause) {
+        if (pause)
+        {
             Time.timeScale = 0f;
             GameIsPaused = true;
             pauseMenu.SetActive(true);
             soundManager.pitch = pitch / 2f;
             soundManager.volume = volume / 2f;
-        } else {
+        }
+        else
+        {
             Time.timeScale = 1f;
             GameIsPaused = false;
             pauseMenu.SetActive(false);

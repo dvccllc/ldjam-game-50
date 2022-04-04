@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 6167902000164233469}
   - component: {fileID: 6167902000164233468}
   m_Layer: 5
-  m_Name: INPUT TEXT
+  m_Name: input label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 6983289914332144586}
   - component: {fileID: 2377035922376720441}
   m_Layer: 5
-  m_Name: List Item
+  m_Name: list item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -281,7 +281,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputAction: 
-  playerInput: {fileID: 0}
-  inputKey: 
   _text: {fileID: 6167902000164233468}
   highlight: {fileID: 5388043653761576600}

@@ -74,11 +74,12 @@ public class Challenge : MonoBehaviour
     void Start()
     {
         InitializeWordbank();
-        Reset();
+        score = 0;
     }
 
     void Update()
     {
+        scoreText.text = score.ToString();
         if (PauseToggle.GameIsPaused || WelcomeScreen.WelcomeActive || GameOver.GameOverActive) return;
 
         // game is over
@@ -94,14 +95,17 @@ public class Challenge : MonoBehaviour
         {
             if (currentInput <= inputActions.Count - 1)
             {
-                
+
                 // user pressed something
-                if (KeyboardPressed()) {
+                if (KeyboardPressed())
+                {
                     // check if it was the correct key
-                    if (Input.GetKeyDown(currentInputAction)) {
+                    if (Input.GetKeyDown(currentInputAction))
+                    {
                         IncrementCurrentInputAction();
                     }
-                    else {
+                    else
+                    {
                         GetComponent<CanvasShake>().Shake(5f);
                         ResetCurrentInputAction();
                     }
@@ -143,8 +147,6 @@ public class Challenge : MonoBehaviour
             countdownCanvasShake.Shake(3f);
             Reset();
         }
-
-        scoreText.text = score.ToString();
     }
 
     List<string> GenerateWordbankSequence()
@@ -158,9 +160,11 @@ public class Challenge : MonoBehaviour
         string heroName = words[heroNameIndex];
 
         // no repeats
-        if (currentSequenceSize < maxSequenceSize) {
+        if (currentSequenceSize < maxSequenceSize)
+        {
             wordbank[wordSize].Remove(heroName);
-            if (wordbank[wordSize].Count == 0) {
+            if (wordbank[wordSize].Count == 0)
+            {
                 currentSequenceSize++;
             }
         }
@@ -174,7 +178,7 @@ public class Challenge : MonoBehaviour
     }
 
 
-    void Reset()
+    public void Reset()
     {
         currentInput = 0;
         completed = 0;
@@ -200,7 +204,7 @@ public class Challenge : MonoBehaviour
         GameObject.Destroy(sequenceList.transform.GetChild(0).gameObject);
     }
 
-    
+
     // ResetCurrentInputAction: reacts to an incorrect entry, and resets to the original input action
     void ResetCurrentInputAction()
     {
@@ -211,7 +215,8 @@ public class Challenge : MonoBehaviour
         ReconstructUIList();
     }
 
-    void ReconstructUIList() {
+    void ReconstructUIList()
+    {
         int listChildren = sequenceList.transform.childCount;
         for (int i = listChildren - 1; i >= 0; i--)
         {
@@ -318,7 +323,8 @@ public class Challenge : MonoBehaviour
     }
 
 
-    bool KeyboardPressed() {
+    bool KeyboardPressed()
+    {
         List<string> keys = new List<string> {
             "a",
             "b",
@@ -364,7 +370,8 @@ public class Challenge : MonoBehaviour
             "`"
         };
 
-        foreach (string key in keys) {
+        foreach (string key in keys)
+        {
             if (Input.GetKeyDown(key)) return true;
         }
         return false;

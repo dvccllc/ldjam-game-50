@@ -5,29 +5,33 @@ using UnityEngine;
 public class GameOver : MonoBehaviour
 {
     public static bool GameOverActive = false;
-    float pitch,volume;
-    
+
+    float pitch, volume;
+
     [SerializeField]
     public AudioSource soundManager;
 
-    public void ToggleGameOver(bool active) {
+    public void ToggleGameOver(bool active)
+    {
         GameOverActive = active;
         gameObject.SetActive(active);
     }
 
-    void Update() {
-        
+    void Update()
+    {
+
         if (pitch == 0) pitch = soundManager.pitch;
         if (volume == 0) volume = soundManager.volume;
 
-        if (GameOverActive) {
+        if (GameOverActive)
+        {
             gameObject.SetActive(true);
-            Time.timeScale = 0f;
             soundManager.pitch = pitch / 2f;
             soundManager.volume = volume / 2f;
-        } else {
+        }
+        else
+        {
             gameObject.SetActive(false);
-            Time.timeScale = 1f;
             soundManager.pitch = pitch;
             soundManager.volume = volume;
         }
